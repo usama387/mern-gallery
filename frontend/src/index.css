@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* when ever an active class route opens make hr tag visible */
+a.active hr {
+  display: block;
+}
