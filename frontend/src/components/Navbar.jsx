@@ -15,6 +15,7 @@ const Navbar = () => {
         className="w-3 text-[#f472b6] text-3xl sm:text-xl font-semibold cursor-pointer"
         onClick={() => navigate("/")}
       >
+        GALLERY
       </p>
 
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
