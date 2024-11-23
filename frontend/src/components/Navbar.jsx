@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../assets/frontend_assets/assets";
 
 const Navbar = () => {
-
-    // managing mobile menu state
+  // managing mobile menu state
   const [visible, setVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   return (
     <div className="flex items-center justify-between py-5 font-medium">
-      <p className="w-3 text-[#f472b6] text-3xl sm:text-xl font-semibold">
-        GALLERY
+      {/* Logo */}
+      <p
+        className="w-3 text-[#f472b6] text-3xl sm:text-xl font-semibold cursor-pointer"
+        onClick={() => navigate("/")}
+      >
       </p>
 
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
@@ -75,11 +79,7 @@ const Navbar = () => {
             className="flex items-center gap-4 p-3 cursor-pointer"
             onClick={() => setVisible(false)}
           >
-            <img
-              src={assets.dropdown_icon}
-              alt=""
-              className="h-4 rotate-180"
-            />
+            <img src={assets.dropdown_icon} alt="" className="h-4 rotate-180" />
             <p>Back</p>
           </div>
           <NavLink
