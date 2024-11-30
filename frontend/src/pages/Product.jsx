@@ -8,7 +8,7 @@ const Product = () => {
   // to access product id from url parameters
   const { productId } = useParams();
 
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency, addToCart } = useContext(ShopContext);
 
   // state to store product data sent from fetchProductData function
   const [productData, setProductData] = useState(false);
@@ -23,7 +23,6 @@ const Product = () => {
     products.map((item) => {
       if (item._id === productId) {
         setProductData(item);
-        console.log(item);
         setImage(item.image[0]);
         return null;
       }
@@ -97,7 +96,12 @@ const Product = () => {
               ))}
             </div>
           </div>
-          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">
+          {/* Add to Cart Logic */}
+          <button
+            className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700"
+            // the function in ShopContext takes these tow as parameters
+            onClick={() => addToCart(productData._id, size)}
+          >
             ADD TO CART
           </button>
           <hr className="mt-8 sm:w-4/5" />
