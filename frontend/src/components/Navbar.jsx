@@ -10,10 +10,10 @@ const Navbar = () => {
   // for navigation
   const navigate = useNavigate();
 
-  const { setShowSearch } = useContext(ShopContext);
+  const { setShowSearch, getCartCount } = useContext(ShopContext);
 
   return (
-    <div className="flex items-center justify-between py-5 font-medium sticky top-0 shadow-md z-50 bg-white">
+    <div className="flex items-center justify-between py-5 font-medium sticky top-0 shadow-md z-50 bg-white px-4">
       {/* Logo */}
       <p
         className="w-3 text-[#f472b6] text-3xl sm:text-xl font-semibold cursor-pointer"
@@ -48,6 +48,7 @@ const Navbar = () => {
         <img
           src={assets.search_icon}
           className="w-5 cursor-pointer"
+          // to make search bar visible
           onClick={() => setShowSearch(true)}
         />
         <div className="group relative">
@@ -65,11 +66,12 @@ const Navbar = () => {
           </div>
         </div>
         <Link to={"/cart"} className="relative">
-          <img src={assets.cart_icon} className="w-5 min-w-5" />
-          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square text-[8px] rounded-full">
-            10
+          <img src={assets.cart_icon} className="w-6 min-w-6" alt="Cart Icon" />
+          <p className="absolute right-[-8px] bottom-[-8px] w-5 h-5 flex items-center justify-center text-base font-semibold bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full shadow-lg dark:bg-gradient-to-r dark:from-green-400 dark:to-blue-500">
+            {getCartCount()}
           </p>
         </Link>
+
         <img
           src={assets.menu_icon}
           alt=""
