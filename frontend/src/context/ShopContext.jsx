@@ -55,7 +55,16 @@ const ShopContextProvider = (props) => {
         } catch (error) {}
       }
     }
-    return totalCount; 
+    return totalCount;
+  };
+
+  // function to update cart quantity
+  const updateQuantity = async (itemId, size, quantity) => {
+    let cartData = structuredClone(cartItems);
+
+    cartData[itemId][size] = quantity;
+
+    setCartItems(cartData);
   };
 
   const currency = "PKR";
@@ -72,7 +81,8 @@ const ShopContextProvider = (props) => {
     setShowSearch,
     cartItems,
     addToCart,
-    getCartCount
+    getCartCount,
+    updateQuantity,
   };
 
   return (
