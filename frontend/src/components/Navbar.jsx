@@ -13,7 +13,7 @@ const Navbar = () => {
   const { setShowSearch } = useContext(ShopContext);
 
   return (
-    <div className="flex items-center justify-between py-5 font-medium">
+    <div className="flex items-center justify-between py-5 font-medium sticky top-0 shadow-md z-50 bg-white">
       {/* Logo */}
       <p
         className="w-3 text-[#f472b6] text-3xl sm:text-xl font-semibold cursor-pointer"
@@ -22,7 +22,7 @@ const Navbar = () => {
         GALLERY
       </p>
 
-      <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
+      <ul className="hidden sm:flex gap-5 text-base text-teal-600">
         <NavLink className="flex flex-col items-center gap-1" to={"/"}>
           <p>HOME</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-[#f43f5e] hidden py-1 px-4 rounded-md" />
