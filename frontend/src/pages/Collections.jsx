@@ -13,10 +13,13 @@ const Collections = () => {
   // filtered products are stored in this state
   const [filterProducts, setFilterProducts] = useState([]);
 
+  // holds category state to be passed in filer
   const [category, setCategory] = useState([]);
 
+  // holds sub-category state to be passed in filer
   const [subCategory, setSubCategory] = useState([]);
 
+  // holds sort type state
   const [sortType, setSortType] = useState("relevant");
 
   // checks if the category exists in category array otherwise adds it in else
