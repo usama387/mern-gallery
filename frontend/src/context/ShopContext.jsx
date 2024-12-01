@@ -1,6 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { products } from "../assets/frontend_assets/assets";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const ShopContext = createContext();
 
@@ -11,8 +12,10 @@ const ShopContextProvider = (props) => {
   // to manage search bar appearance state
   const [showSearch, setShowSearch] = useState(false);
 
-  // state to hold cart items details
+  // state to hold cart items details for all the downward functions
   const [cartItems, setCartItems] = useState({});
+
+  const navigate = useNavigate();
 
   // addToCart async function
   const addToCart = async (itemId, size) => {
@@ -67,6 +70,22 @@ const ShopContextProvider = (props) => {
     setCartItems(cartData);
   };
 
+  // function to calculate cart items price using cartItems state variable
+  const getCartAmount = () => {
+    let totalAmount = 0;
+    for (const items in cartItems) {
+      for (const size in cartItems[items]) {
+        try {
+          if (cartItems[items][size] > 0) {
+            const product = products.find((product) => product._id === items);
+            totalAmount += product.price * cartItems[items][size];
+          }
+        } catch (error) {}
+      }
+    }
+    return totalAmount;
+  };
+
   const currency = "PKR";
   const deliveryFee = 250;
 
@@ -83,6 +102,8 @@ const ShopContextProvider = (props) => {
     addToCart,
     getCartCount,
     updateQuantity,
+    getCartAmount,
+    navigate
   };
 
   return (
