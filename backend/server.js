@@ -1,11 +1,13 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
+import connectDb from "./config/Mongodb.js";
 
 // App Config
 const app = express();
 
-const port = process.env.PORT || 4000;
+// db config
+connectDb();
 
 // middlewares
 app.use(express.json());
@@ -15,6 +17,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
+
+const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
   console.log(`The backend is up on port ${port}`);
