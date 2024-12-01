@@ -2,9 +2,11 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import connectDb from "./config/Mongodb.js";
+import connectToCloudinary from "./config/Cloudinary.js";
 
 // App Config
 const app = express();
+connectToCloudinary()
 
 // db config
 connectDb();
