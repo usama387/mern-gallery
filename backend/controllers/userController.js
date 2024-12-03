@@ -125,6 +125,42 @@ const loginUser = async (req, res) => {
 };
 
 // api for admin login
-const adminLogin = async (req, res) => {};
+const adminLogin = async (req, res) => {
+  try {
+    // extract email and password from request body and check if its received properly
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      // generate admin token if admin credentials are correct by encoding email and password in token
+      const adminToken = jwt.sign(email + password, process.env.JWT_SECRET_KEY);
+      return res.status(200).json({
+        success: true,
+        message: "Logged in successfully as an admin!",
+        adminToken,
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid admin credentials",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to log in as admin",
+    });
+  }
+};
 
 export { registerUser, loginUser, adminLogin };
