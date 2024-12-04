@@ -5,7 +5,6 @@ import productModel from "../models/product.js";
 const addProduct = async (req, res) => {
   try {
     // accessing data from request body
-
     const {
       name,
       description,
