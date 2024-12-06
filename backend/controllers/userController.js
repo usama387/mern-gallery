@@ -142,11 +142,11 @@ const adminLogin = async (req, res) => {
       password === process.env.ADMIN_PASSWORD
     ) {
       // generate admin token if admin credentials are correct by encoding email and password in token
-      const adminToken = jwt.sign(email + password, process.env.JWT_SECRET_KEY);
+      const token = jwt.sign(email + password, process.env.JWT_SECRET_KEY);
       return res.status(200).json({
         success: true,
         message: "Logged in successfully as an admin!",
-        adminToken,
+        token,
       });
     } else {
       return res.status(401).json({
