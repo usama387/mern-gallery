@@ -22,8 +22,6 @@ const Login = ({ setToken }) => {
       } else {
         toast.error(data.message);
       }
-
-      console.log(`${email} ${password}`);
     } catch (error) {
       console.log(error);
       toast.error("Invalid password");
