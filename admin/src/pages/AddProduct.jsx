@@ -103,7 +103,7 @@ const AddProduct = ({ token }) => {
             <img
               src={image1 ? URL.createObjectURL(image1) : assets.upload_area}
               alt=""
-              className="w-20 cursor-pointer border border-blue-100"
+              className="w-20 cursor-pointer border border-blue-100 transition-transform duration-300 hover:scale-125"
             />
             <input
               type="file"
@@ -115,8 +115,8 @@ const AddProduct = ({ token }) => {
           <label htmlFor="image2">
             <img
               src={image2 ? URL.createObjectURL(image2) : assets.upload_area}
-              alt=""
-              className="w-20 cursor-pointer border border-blue-100"
+        
+              className="w-20 cursor-pointer border border-blue-100 transition-transform duration-300 hover:scale-125"
             />
             <input
               type="file"
@@ -129,7 +129,7 @@ const AddProduct = ({ token }) => {
             <img
               src={image3 ? URL.createObjectURL(image3) : assets.upload_area}
               alt=""
-              className="w-20 cursor-pointer border border-blue-100"
+              className="w-20 cursor-pointer border border-blue-100 transition-transform duration-300 hover:scale-125"
             />
             <input
               type="file"
@@ -142,7 +142,7 @@ const AddProduct = ({ token }) => {
             <img
               src={image4 ? URL.createObjectURL(image4) : assets.upload_area}
               alt=""
-              className="w-20 cursor-pointer border border-blue-100"
+              className="w-20 cursor-pointer border border-blue-100 transition-transform duration-300 hover:scale-125"
             />
             <input
               type="file"
@@ -237,7 +237,9 @@ const AddProduct = ({ token }) => {
           >
             <p
               className={`bg-slate-300 px-3 py-1 cursor-pointer ${
-                sizes.includes("S") ? "bg-yellow-500 text-black font-semibold rounded-md" : ""
+                sizes.includes("S")
+                  ? "bg-yellow-500 text-black font-semibold rounded-md"
+                  : ""
               }`}
             >
               S
@@ -256,7 +258,9 @@ const AddProduct = ({ token }) => {
           >
             <p
               className={`bg-slate-300 px-3 py-1 cursor-pointer ${
-                sizes.includes("M") ? "bg-yellow-500 text-black font-semibold rounded-md" : ""
+                sizes.includes("M")
+                  ? "bg-yellow-500 text-black font-semibold rounded-md"
+                  : ""
               }`}
             >
               M
@@ -275,7 +279,9 @@ const AddProduct = ({ token }) => {
           >
             <p
               className={`bg-slate-300 px-3 py-1 cursor-pointer ${
-                sizes.includes("L") ? "bg-yellow-500 text-black font-semibold rounded-md" : ""
+                sizes.includes("L")
+                  ? "bg-yellow-500 text-black font-semibold rounded-md"
+                  : ""
               }`}
             >
               L
@@ -293,7 +299,9 @@ const AddProduct = ({ token }) => {
           >
             <p
               className={`bg-slate-300 px-3 py-1 cursor-pointer ${
-                sizes.includes("XL") ? "bg-yellow-500 text-black font-semibold rounded-md" : ""
+                sizes.includes("XL")
+                  ? "bg-yellow-500 text-black font-semibold rounded-md"
+                  : ""
               }`}
             >
               XL
@@ -311,7 +319,9 @@ const AddProduct = ({ token }) => {
           >
             <p
               className={`bg-slate-300 px-3 py-1 cursor-pointer ${
-                sizes.includes("XXL") ? "bg-yellow-500 text-black font-semibold rounded-md" : ""
+                sizes.includes("XXL")
+                  ? "bg-yellow-500 text-black font-semibold rounded-md"
+                  : ""
               }`}
             >
               XXL
