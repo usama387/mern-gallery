@@ -4,6 +4,7 @@ import Title from "./Title";
 import ProductItem from "./ProductItem";
 
 const LatestCollection = () => {
+  // access products from context 
   const { products } = useContext(ShopContext);
 
   //   this state holds 10 products data from products whenever it is mounted

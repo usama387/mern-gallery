@@ -4,20 +4,16 @@ import Title from "./Title";
 import ProductItem from "./ProductItem";
 
 const Bestseller = () => {
+  // access products from context to filter bestseller and render them
   const { products } = useContext(ShopContext);
-
-  console.log(products);
 
   //   holds product where bestSeller status is true in context api
   const [bestSeller, setBestSeller] = useState([]);
 
-  console.log(bestSeller);
-
   useEffect(() => {
     const bestProducts = products.filter((item) => item.bestseller === true);
-    console.log("Filtered Best Products:", bestProducts);
     setBestSeller(bestProducts.slice(0, 5));
-  }, []);
+  }, [products]);
 
   return (
     <div className="my-10">

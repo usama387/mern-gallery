@@ -69,7 +69,7 @@ const Collections = () => {
   // this function is called when a user selects a filter option from menu
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory, search, showSearch]);
+  }, [category, subCategory, search, showSearch, products]);
 
   // saves the filtered products in useState
   useEffect(() => {
