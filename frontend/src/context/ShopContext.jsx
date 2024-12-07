@@ -1,7 +1,7 @@
-import { createContext, useState } from "react";
-import { products } from "../assets/frontend_assets/assets";
+import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const ShopContext = createContext();
 
@@ -15,6 +15,9 @@ const ShopContextProvider = (props) => {
   // state to hold cart items details for all the downward functions
   const [cartItems, setCartItems] = useState({});
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  // for navigation
   const navigate = useNavigate();
 
   // addToCart async function
@@ -86,6 +89,28 @@ const ShopContextProvider = (props) => {
     return totalAmount;
   };
 
+  // state to hold products data fetched from this api
+  const [products, setProducts] = useState([]);
+
+  const getProductsData = async () => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/product/list`);
+      console.log(data);
+      if (data.success) {
+        setProducts(data.products);
+      } else {
+        toast.error(data.message);
+        setProducts([]);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getProductsData();
+  }, []);
+
   const currency = "PKR";
   const deliveryFee = 250;
 
@@ -103,7 +128,8 @@ const ShopContextProvider = (props) => {
     getCartCount,
     updateQuantity,
     getCartAmount,
-    navigate
+    navigate,
+    backendUrl,
   };
 
   return (
