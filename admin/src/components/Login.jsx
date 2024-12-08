@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { backendUrl } from "../App";
 import { toast } from "react-toastify";
-import { Eye, EyeOff } from "lucide-react";
-
+import { Eye, EyeOff } from "lucide-react"
 const Login = ({ setToken }) => {
   // States for email and password
   const [email, setEmail] = useState("");
