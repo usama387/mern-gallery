@@ -6,6 +6,9 @@ import axios from "axios";
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
+  // state to hold token when user logs in or sign up
+  const [token, setToken] = useState("");
+
   // ro manage search query state
   const [search, setSearch] = useState("");
 
@@ -92,10 +95,10 @@ const ShopContextProvider = (props) => {
   // state to hold products data fetched from this api
   const [products, setProducts] = useState([]);
 
+  // function to fetch all products from db
   const getProductsData = async () => {
     try {
       const { data } = await axios.get(`${backendUrl}/api/product/list`);
-      console.log(data);
       if (data.success) {
         setProducts(data.products);
       } else {
@@ -107,14 +110,22 @@ const ShopContextProvider = (props) => {
     }
   };
 
+  // to invoke function on mount
   useEffect(() => {
     getProductsData();
+  }, []);
+
+  // to prevent logout on page refresh when useState resets
+  useEffect(() => {
+    if (!token && localStorage.getItem("token")) {
+      setToken(localStorage.getItem("token"));
+    }
   }, []);
 
   const currency = "PKR";
   const deliveryFee = 250;
 
-  // this object contains data to be accessed anywhere
+  // this object contains data to be accessed anywhere using context api
   const value = {
     products,
     currency,
@@ -130,6 +141,9 @@ const ShopContextProvider = (props) => {
     getCartAmount,
     navigate,
     backendUrl,
+    token,
+    setToken,
+    setCartItems,
   };
 
   return (
