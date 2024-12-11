@@ -144,7 +144,7 @@ const ShopContextProvider = (props) => {
       console.log("Making API call...");
       const { data } = await axios.post(
         `${backendUrl}/api/cart/getUserCart`,
-        {}, 
+        {}, // Empty body
         {
           headers: { token },
         }
