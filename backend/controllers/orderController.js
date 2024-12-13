@@ -43,7 +43,35 @@ const orderPlaceWithStripe = async (req, res) => {};
 const allOrdersForAdminPanel = async (req, res) => {};
 
 // api for order details for user on frontend
-const orderDetailsForUser = async (req, res) => {};
+const orderDetailsForUser = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
+
+    const getUserOrders = await orderModel.find({ userId });
+
+    if (!getUserOrders) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      orderDetails: getUserOrders,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error getting order details" });
+  }
+};
 
 // api to update order status for user from admin panel
 const orderStatusUpdate = async (req, res) => {};
