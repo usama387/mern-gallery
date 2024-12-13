@@ -6,6 +6,7 @@ import connectToCloudinary from "./config/Cloudinary.js";
 import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
+import orderRouter from "./routes/orderRoute.js";
 
 // App Config
 const app = express();
@@ -26,6 +27,9 @@ app.use("/api/product", productRouter)
 
 // user cart api end point
 app.use("/api/cart", cartRouter)
+
+// order api end point
+app.use("/api/order", orderRouter)
 
 
 // test api end point
