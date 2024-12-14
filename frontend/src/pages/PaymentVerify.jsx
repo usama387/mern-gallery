@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const VerifyStripe = () => {
+const PaymentVerify = () => {
   // useContext hook to access shopContext data to use during api requests
   const { token, setCartItems, navigate, backendUrl } = useContext(ShopContext);
 
@@ -59,4 +59,4 @@ const VerifyStripe = () => {
   );
 };
 
-export default VerifyStripe;
+export default PaymentVerify;

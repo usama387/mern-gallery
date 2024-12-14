@@ -13,9 +13,9 @@ import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import VerifyStripe from "./pages/verifyStripe";
 import { useContext } from "react";
 import { ShopContext } from "./context/ShopContext";
+import PaymentVerify from "./pages/PaymentVerify";
 
 const App = () => {
   // check if user is logged in by checking if token exists in context to protect routes
@@ -35,7 +35,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/verify" element={<VerifyStripe />} />
+        <Route path="/verify" element={<PaymentVerify />} />
       </Routes>
       <Footer />
     </div>
