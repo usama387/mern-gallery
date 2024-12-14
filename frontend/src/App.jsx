@@ -11,12 +11,17 @@ import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import VerifyStripe from "./pages/verifyStripe";
+import { useContext } from "react";
+import { ShopContext } from "./context/ShopContext";
 
 const App = () => {
-  return (
+  // check if user is logged in by checking if token exists in context to protect routes
+  const { token } = useContext(ShopContext);
+
+  return token ? (
     <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       <ToastContainer />
       <Navbar />
@@ -28,12 +33,16 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/verify" element={<VerifyStripe />} />
       </Routes>
       <Footer />
+    </div>
+  ) : (
+    <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+      <Navbar />
+      <Login />
     </div>
   );
 };
