@@ -86,7 +86,37 @@ const orderDetailsForUser = async (req, res) => {
 };
 
 // api to update order status for user from admin panel
-const orderStatusUpdate = async (req, res) => {};
+const orderStatusUpdate = async (req, res) => {
+  try {
+    const { orderId, status } = req.body;
+
+    if (!orderId || !status) {
+      return res.status(400).json({
+        success: false,
+        message: "Order ID and status are required",
+      });
+    }
+
+    const updatedOrder = await orderModel.findByIdAndUpdate(orderId, {
+      status,
+    });
+
+    if (!updatedOrder) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Order status updated successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error updating order status" });
+  }
+};
 
 export {
   orderDetailsForUser,
