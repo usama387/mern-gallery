@@ -34,6 +34,7 @@ const Login = () => {
           password,
         });
         if (data.success) {
+          navigate("/login");
           setToken(data.token);
           // store the token in local storage
           localStorage.setItem("token", data.token);
@@ -48,6 +49,7 @@ const Login = () => {
         });
         console.log(data);
         if (data.success) {
+          navigate("/");
           setToken(data.token);
           // store the token in local storage
           localStorage.setItem("token", data.token);
