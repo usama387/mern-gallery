@@ -5,6 +5,7 @@ import {
   orderPlaceWithCod,
   orderPlaceWithStripe,
   orderStatusUpdate,
+  verifyStripePayment,
 } from "../controllers/orderController.js";
 import verifyAdmin from "../middleware/verifyadmin.js";
 import verifyUser from "../middleware/verifyUser.js";
@@ -21,5 +22,8 @@ orderRouter.post("/stripe", verifyUser, orderPlaceWithStripe);
 
 // api route for user
 orderRouter.post("/userOrders", verifyUser, orderDetailsForUser);
+
+// verify payment
+orderRouter.post("/verifyStripe", verifyUser, verifyStripePayment);
 
 export default orderRouter;
