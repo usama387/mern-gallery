@@ -40,7 +40,19 @@ const orderPlaceWithCod = async (req, res) => {
 const orderPlaceWithStripe = async (req, res) => {};
 
 // api for all orders for admin panel
-const allOrdersForAdminPanel = async (req, res) => {};
+const allOrdersForAdminPanel = async (req, res) => {
+  try {
+    const orders = await orderModel.find({});
+
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error getting all orders" });
+  }
+};
 
 // api for order details for user on frontend
 const orderDetailsForUser = async (req, res) => {
