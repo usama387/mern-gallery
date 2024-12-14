@@ -3,9 +3,9 @@ import {
   allOrdersForAdminPanel,
   orderDetailsForUser,
   orderPlaceWithCod,
-  orderPlaceWithStripe,
+  // orderPlaceWithStripe,
   orderStatusUpdate,
-  verifyStripePayment,
+  // verifyStripePayment,
 } from "../controllers/orderController.js";
 import verifyAdmin from "../middleware/verifyadmin.js";
 import verifyUser from "../middleware/verifyUser.js";
@@ -18,12 +18,12 @@ orderRouter.post("/status", verifyAdmin, orderStatusUpdate);
 
 // api routes for payments
 orderRouter.post("/place", verifyUser, orderPlaceWithCod);
-orderRouter.post("/stripe", verifyUser, orderPlaceWithStripe);
+// orderRouter.post("/stripe", verifyUser, orderPlaceWithStripe);
 
 // api route for user
 orderRouter.post("/userOrders", verifyUser, orderDetailsForUser);
 
-// verify payment
-orderRouter.post("/verifyStripe", verifyUser, verifyStripePayment);
+// // verify payment
+// orderRouter.post("/verifyStripe", verifyUser, verifyStripePayment);
 
 export default orderRouter;
