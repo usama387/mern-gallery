@@ -1,5 +1,13 @@
 import orderModel from "../models/order.js";
 import userModel from "../models/user.js";
+import Stripe from "stripe";
+
+// global variables
+const currency = "pkr";
+const deliveryCharges = 250;
+
+// stripe gateway initialization
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // api for orders placed using cod method
 const orderPlaceWithCod = async (req, res) => {
@@ -37,7 +45,70 @@ const orderPlaceWithCod = async (req, res) => {
 };
 
 // api for orders placed using stripe method
-const orderPlaceWithStripe = async (req, res) => {};
+const orderPlaceWithStripe = async (req, res) => {
+  try {
+    const { userId, items, amount, address } = req.body;
+
+    // origin contain client url from payment is done
+    const { origin } = req.headers;
+
+    // now create an object of order data\
+    const orderData = {
+      userId,
+      items,
+      amount,
+      address,
+      paymentMethod: "Stripe",
+      date: Date.now(),
+      payment: false,
+    };
+
+    // then pass this object to order model
+    const newOrder = await orderModel(orderData);
+
+    // now save it
+    await newOrder.save();
+
+    const line_items = items.map((item) => ({
+      price_data: {
+        currency: currency,
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: item.price * 100,
+      },
+      quantity: item.quantity,
+    }));
+
+    line_items.push({
+      price_data: {
+        currency: currency,
+        product_data: {
+          name: "Delivery Charges",
+        },
+        unit_amount: deliveryCharges * 100,
+      },
+      quantity: 1,
+    });
+
+    // creating a checkout session
+    const session = await stripe.checkout.sessions.create({
+      success_url: `${origin}/verify?success=true&orderId=${newOrder._id}`,
+      cancel_url: `${origin}/verify?success=false&orderId=${newOrder._id}`,
+      line_items,
+      mode: "payment",
+    });
+
+    res.status(200).json({
+      success: true,
+      session_url: session.url,
+      message: "Order placed successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error placing order using Stripe" });
+  }
+};
 
 // api for all orders for admin panel
 const allOrdersForAdminPanel = async (req, res) => {
