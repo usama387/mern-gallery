@@ -30,9 +30,34 @@ const Orders = ({ token }) => {
       toast.error(error.message);
     }
   };
+  // fetch orders on component mount and whenever token changes
   useEffect(() => {
     getOrdersForAdminPanel();
   }, [token]);
+
+  // function that takes orderId and event as parameter to call api and change order status 
+  const changeOrderStatus = async (event, orderId) => {
+    try {
+      event.preventDefault();
+      const { data } = await axios.post(
+        backendUrl + "/api/order/status",
+        {
+          orderId,
+          status: event.target.value,
+        },
+        { headers: { token } }
+      );
+
+      if (data.success) {
+        toast.success(data.message);
+        // to refresh order data since status has changed
+        await getOrdersForAdminPanel();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div>
@@ -90,12 +115,17 @@ const Orders = ({ token }) => {
             <p className="text-base font-semibold sm:text-[15px]">
               {order.amount} PKR
             </p>
-            <select className="p-2 font-semibold w-max rounded-lg border border-gray-300 bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out hover:cursor-pointer hover:bg-gray-50" value={order?.status}>
+            <select
+              className="p-2 font-semibold w-max rounded-lg border border-gray-300 bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out hover:cursor-pointer hover:bg-gray-50"
+              value={order?.status}
+              onChange={(event) => changeOrderStatus(event, order._id)}
+            >
               <option value="Order Placed">Order Placed</option>
               <option value="Packing">Packing</option>
               <option value="Shipped">Shipped</option>
               <option value="Out for delivery">Out for delivery</option>
               <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
             </select>
           </div>
         ))}
