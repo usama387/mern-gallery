@@ -110,6 +110,35 @@ const orderPlaceWithStripe = async (req, res) => {
   }
 };
 
+// verify stripe payment
+const verifyStripePayment = async (req, res) => {
+  try {
+    const { orderId, success, userId } = req.body;
+
+    if (!success || !orderId || !userId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required fields" });
+    }
+
+    const isSuccess = success === "true" || success === true;
+
+    if (isSuccess) {
+      // set payment status to true
+      await orderModel.findByIdAndUpdate(orderId, { payment: true });
+      // clear cart data of user once payment has been made
+      await userModel.findByIdAndUpdate(userId, { cartData: {} });
+      res.status(200).json({ success: true, message: "Payment successful" });
+    } else {
+      await orderModel.findByIdAndDelete(orderId);
+      res.status(200).json({ message: "Payment failed" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error verifying payment" });
+  }
+};
+
 // api for all orders for admin panel
 const allOrdersForAdminPanel = async (req, res) => {
   try {
@@ -195,4 +224,5 @@ export {
   orderStatusUpdate,
   orderPlaceWithStripe,
   allOrdersForAdminPanel,
+  verifyStripePayment,
 };
