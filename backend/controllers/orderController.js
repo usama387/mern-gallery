@@ -142,8 +142,9 @@ const verifyStripePayment = async (req, res) => {
 // api for all orders for admin panel
 const allOrdersForAdminPanel = async (req, res) => {
   try {
-    const orders = await orderModel.find({});
-
+    // Fetch orders sorted by most recent first
+    const orders = await orderModel.find({}).sort({ createdAt: -1 }); // -1 for descending order
+    
     res.status(200).json({
       success: true,
       orders,

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { backendUrl } from "../App";
 import { toast } from "react-toastify";
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 const Login = ({ setToken }) => {
   // States for email and password
   const [email, setEmail] = useState("");
@@ -14,6 +15,8 @@ const Login = ({ setToken }) => {
   // State for API loading
   const [apiLoading, setApiLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const onSubmitHandler = async (event) => {
     try {
       event.preventDefault();
@@ -24,6 +27,7 @@ const Login = ({ setToken }) => {
         password,
       });
       if (data.success) {
+        navigate("/orders");
         setToken(data.token);
         toast.success(data.message);
       } else {
@@ -43,7 +47,9 @@ const Login = ({ setToken }) => {
         <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
         <form onSubmit={onSubmitHandler}>
           <div className="mb-3 min-w-72">
-            <p className="text-base font-medium text-gray-700 mb-2">Email Address</p>
+            <p className="text-base font-medium text-gray-700 mb-2">
+              Email Address
+            </p>
             <input
               type="email"
               placeholder="your@email.com"
@@ -66,7 +72,11 @@ const Login = ({ setToken }) => {
               className="absolute top-10 right-3 text-gray-500"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              {showPassword ? (
+                <EyeOff className="w-5 h-5" />
+              ) : (
+                <Eye className="w-5 h-5" />
+              )}
             </button>
           </div>
           <button
