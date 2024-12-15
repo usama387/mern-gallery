@@ -44,100 +44,100 @@ const orderPlaceWithCod = async (req, res) => {
   }
 };
 
-// // api for orders placed using stripe method
-// const orderPlaceWithStripe = async (req, res) => {
-//   try {
-//     const { userId, items, amount, address } = req.body;
+// api for orders placed using stripe method
+const orderPlaceWithStripe = async (req, res) => {
+  try {
+    const { userId, items, amount, address } = req.body;
 
-//     // origin contain client url from payment is done
-//     const { origin } = req.headers;
+    // origin contain client url from payment is done
+    const { origin } = req.headers;
 
-//     // now create an object of order data\
-//     const orderData = {
-//       userId,
-//       items,
-//       amount,
-//       address,
-//       paymentMethod: "Stripe",
-//       date: Date.now(),
-//       payment: false,
-//     };
+    // now create an object of order data\
+    const orderData = {
+      userId,
+      items,
+      amount,
+      address,
+      paymentMethod: "Stripe",
+      date: Date.now(),
+      payment: false,
+    };
 
-//     // then pass this object to order model
-//     const newOrder = await orderModel(orderData);
+    // then pass this object to order model
+    const newOrder = await orderModel(orderData);
 
-//     // now save it
-//     await newOrder.save();
+    // now save it
+    await newOrder.save();
 
-//     const line_items = items.map((item) => ({
-//       price_data: {
-//         currency: currency,
-//         product_data: {
-//           name: item.name,
-//         },
-//         unit_amount: item.price * 100,
-//       },
-//       quantity: item.quantity,
-//     }));
+    const line_items = items.map((item) => ({
+      price_data: {
+        currency: currency,
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: item.price * 100,
+      },
+      quantity: item.quantity,
+    }));
 
-//     line_items.push({
-//       price_data: {
-//         currency: currency,
-//         product_data: {
-//           name: "Delivery Charges",
-//         },
-//         unit_amount: deliveryCharges * 100,
-//       },
-//       quantity: 1,
-//     });
+    line_items.push({
+      price_data: {
+        currency: currency,
+        product_data: {
+          name: "Delivery Charges",
+        },
+        unit_amount: deliveryCharges * 100,
+      },
+      quantity: 1,
+    });
 
-//     // creating a checkout session
-//     const session = await stripe.checkout.sessions.create({
-//       success_url: `${origin}/verify?success=true&orderId=${newOrder._id}`,
-//       cancel_url: `${origin}/verify?success=false&orderId=${newOrder._id}`,
-//       line_items,
-//       mode: "payment",
-//     });
+    // creating a checkout session
+    const session = await stripe.checkout.sessions.create({
+      success_url: `${origin}/verify?success=true&orderId=${newOrder._id}`,
+      cancel_url: `${origin}/verify?success=false&orderId=${newOrder._id}`,
+      line_items,
+      mode: "payment",
+    });
 
-//     res.status(200).json({
-//       success: true,
-//       session_url: session.url,
-//       message: "Order placed successfully",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: "Error placing order using Stripe" });
-//   }
-// };
+    res.status(200).json({
+      success: true,
+      session_url: session.url,
+      message: "Order placed successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error placing order using Stripe" });
+  }
+};
 
-// // verify stripe payment
-// const verifyStripePayment = async (req, res) => {
-//   try {
-//     const { orderId, success, userId } = req.body;
+// verify stripe payment
+const verifyStripePayment = async (req, res) => {
+  try {
+    const { orderId, success, userId } = req.body;
 
-//     if (!success || !orderId || !userId) {
-//       return res
-//         .status(400)
-//         .json({ success: false, message: "Missing required fields" });
-//     }
+    if (!success || !orderId || !userId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required fields" });
+    }
 
-//     const isSuccess = success === "true" || success === true;
+    const isSuccess = success === "true" || success === true;
 
-//     if (isSuccess) {
-//       // set payment status to true
-//       await orderModel.findByIdAndUpdate(orderId, { payment: true });
-//       // clear cart data of user once payment has been made
-//       await userModel.findByIdAndUpdate(userId, { cartData: {} });
-//       res.status(200).json({ success: true, message: "Payment successful" });
-//     } else {
-//       await orderModel.findByIdAndDelete(orderId);
-//       res.status(200).json({ message: "Payment failed" });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: "Error verifying payment" });
-//   }
-// };
+    if (isSuccess) {
+      // set payment status to true
+      await orderModel.findByIdAndUpdate(orderId, { payment: true });
+      // clear cart data of user once payment has been made
+      await userModel.findByIdAndUpdate(userId, { cartData: {} });
+      res.status(200).json({ success: true, message: "Payment successful" });
+    } else {
+      await orderModel.findByIdAndDelete(orderId);
+      res.status(200).json({ message: "Payment failed" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error verifying payment" });
+  }
+};
 
 // api for all orders for admin panel
 const allOrdersForAdminPanel = async (req, res) => {
@@ -222,7 +222,7 @@ export {
   orderDetailsForUser,
   orderPlaceWithCod,
   orderStatusUpdate,
-  // orderPlaceWithStripe,
+  orderPlaceWithStripe,
   allOrdersForAdminPanel,
-  // verifyStripePayment,
+  verifyStripePayment,
 };
