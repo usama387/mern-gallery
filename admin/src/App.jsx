@@ -10,7 +10,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // will be accessed by other components/pages to make http requests to backend
-export const backendUrl = import.meta.env.VITE_BACKEND_URL;
+export const backendUrl =
+  import.meta.env.VITE_BACKEND_URL ||
+  "https://gallery-backend-steel.vercel.app";
 
 const App = () => {
   // state to hold admin token to prevent logout on page refresh

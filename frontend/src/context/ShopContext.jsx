@@ -21,7 +21,9 @@ const ShopContextProvider = (props) => {
   });
 
   const [products, setProducts] = useState([]);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL ||
+    "https://gallery-backend-steel.vercel.app";
   const navigate = useNavigate();
 
   // Save cartItems to localStorage whenever it changes
@@ -59,7 +61,7 @@ const ShopContextProvider = (props) => {
     }
   };
 
-    // function that use cartItems state from local storage to render product count
+  // function that use cartItems state from local storage to render product count
   const getCartCount = () => {
     let totalCount = 0;
     for (const items in cartItems) {
