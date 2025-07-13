@@ -10,27 +10,50 @@ import orderRouter from "./routes/orderRoute.js";
 
 // App Config
 const app = express();
-connectToCloudinary()
+connectToCloudinary();
 
 // db config
 connectDb();
 
 // middlewares
 app.use(express.json());
-app.use(cors());
+
+// Allowed origins
+const allowedOrigins = [
+  "https://gallery-frontend-omega.vercel.app",
+  "https://gallery-admin.vercel.app",
+  "http://localhost:5173",
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS: " + origin));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  exposedHeaders: ["set-cookie"],
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 // user api end point
-app.use("/api/user", userRouter)
+app.use("/api/user", userRouter);
 
 // product api end point
-app.use("/api/product", productRouter)
+app.use("/api/product", productRouter);
 
 // user cart api end point
-app.use("/api/cart", cartRouter)
+app.use("/api/cart", cartRouter);
 
 // order api end point
-app.use("/api/order", orderRouter)
-
+app.use("/api/order", orderRouter);
 
 // test api end point
 app.get("/", (req, res) => {
